@@ -1,6 +1,21 @@
-*.sw*
 .DS_Store
-.cache
 node_modules
+
+# Tmp folders
+.serverless
+.webpack
+.archives
+dist
+
+# Log files
 npm-debug.log*
-.dist
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
