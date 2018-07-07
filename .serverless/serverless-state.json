@@ -1,0 +1,209 @@
+{
+  "service": {
+    "service": "svg-to-png-serverless",
+    "serviceObject": {
+      "name": "svg-to-png-serverless"
+    },
+    "provider": {
+      "stage": "dev",
+      "region": "us-east-1",
+      "variableSyntax": "\\${([ ~:a-zA-Z0-9._'\",\\-\\/\\(\\)]+?)}",
+      "name": "aws",
+      "runtime": "nodejs6.10",
+      "memorySize": 1536,
+      "timeout": 180,
+      "versionFunctions": true,
+      "remoteFunctionData": null,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "ServerlessDeploymentBucket": {
+            "Type": "AWS::S3::Bucket"
+          },
+          "TestDashfunctionLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/svg-to-png-serverless-dev-test-function"
+            }
+          },
+          "IamRoleLambdaExecution": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "lambda.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "sts:AssumeRole"
+                    ]
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": {
+                    "Fn::Join": [
+                      "-",
+                      [
+                        "dev",
+                        "svg-to-png-serverless",
+                        "lambda"
+                      ]
+                    ]
+                  },
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:CreateLogStream"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/svg-to-png-serverless-dev-test-function:*"
+                          }
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:PutLogEvents"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/svg-to-png-serverless-dev-test-function:*:*"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "Path": "/",
+              "RoleName": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    "svg-to-png-serverless",
+                    "dev",
+                    "us-east-1",
+                    "lambdaRole"
+                  ]
+                ]
+              }
+            }
+          },
+          "TestDashfunctionLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/svg-to-png-serverless/dev/1530955326903-2018-07-07T09:22:06.903Z/package.zip"
+              },
+              "FunctionName": "svg-to-png-serverless-dev-test-function",
+              "Handler": "index.handler",
+              "MemorySize": 1536,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              },
+              "Runtime": "nodejs6.10",
+              "Timeout": 180,
+              "Environment": {
+                "Variables": {
+                  "DEBUG": "0"
+                }
+              }
+            },
+            "DependsOn": [
+              "TestDashfunctionLogGroup",
+              "IamRoleLambdaExecution"
+            ]
+          },
+          "TestDashfunctionLambdaVersionBhF26UlfDp2IzXlPVdndx360En1yd2CwvscK5oezs": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "TestDashfunctionLambdaFunction"
+              },
+              "CodeSha256": "dV+7V+OKYaNh1U5H2J9STToUih8Xc9pKGdgBQ8TWKo4="
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": {
+              "Ref": "ServerlessDeploymentBucket"
+            }
+          },
+          "TestDashfunctionLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "TestDashfunctionLambdaVersionBhF26UlfDp2IzXlPVdndx360En1yd2CwvscK5oezs"
+            }
+          }
+        }
+      },
+      "coreCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "ServerlessDeploymentBucket": {
+            "Type": "AWS::S3::Bucket"
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": {
+              "Ref": "ServerlessDeploymentBucket"
+            }
+          }
+        }
+      },
+      "vpc": {}
+    },
+    "custom": {
+      "hooks": {
+        "package:initialize": [
+          "npm run package"
+        ]
+      }
+    },
+    "plugins": [
+      "serverless-hooks-plugin"
+    ],
+    "pluginsData": {},
+    "functions": {
+      "test-function": {
+        "handler": "index.handler",
+        "environment": {
+          "DEBUG": "0"
+        },
+        "events": [],
+        "name": "svg-to-png-serverless-dev-test-function",
+        "package": {},
+        "memory": 1536,
+        "timeout": 180,
+        "runtime": "nodejs6.10",
+        "vpc": {}
+      }
+    }
+  },
+  "package": {
+    "artifactDirectoryName": "serverless/svg-to-png-serverless/dev/1530955326903-2018-07-07T09:22:06.903Z",
+    "artifact": "package.zip"
+  }
+}
