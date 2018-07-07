@@ -21,10 +21,10 @@
           "ServerlessDeploymentBucket": {
             "Type": "AWS::S3::Bucket"
           },
-          "TestDashfunctionLogGroup": {
+          "ConvertToPngLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/svg-to-png-serverless-dev-test-function"
+              "LogGroupName": "/aws/lambda/svg-to-png-serverless-dev-convertToPng"
             }
           },
           "IamRoleLambdaExecution": {
@@ -68,7 +68,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/svg-to-png-serverless-dev-test-function:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/svg-to-png-serverless-dev-convertToPng:*"
                           }
                         ]
                       },
@@ -79,7 +79,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/svg-to-png-serverless-dev-test-function:*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/svg-to-png-serverless-dev-convertToPng:*:*"
                           }
                         ]
                       }
@@ -101,16 +101,16 @@
               }
             }
           },
-          "TestDashfunctionLambdaFunction": {
+          "ConvertToPngLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
               "Code": {
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/svg-to-png-serverless/dev/1530955326903-2018-07-07T09:22:06.903Z/package.zip"
+                "S3Key": "serverless/svg-to-png-serverless/dev/1530965146145-2018-07-07T12:05:46.145Z/package.zip"
               },
-              "FunctionName": "svg-to-png-serverless-dev-test-function",
+              "FunctionName": "svg-to-png-serverless-dev-convertToPng",
               "Handler": "index.handler",
               "MemorySize": 1536,
               "Role": {
@@ -128,18 +128,193 @@
               }
             },
             "DependsOn": [
-              "TestDashfunctionLogGroup",
+              "ConvertToPngLogGroup",
               "IamRoleLambdaExecution"
             ]
           },
-          "TestDashfunctionLambdaVersionBhF26UlfDp2IzXlPVdndx360En1yd2CwvscK5oezs": {
+          "ConvertToPngLambdaVersionplaVjUUuuAFuejefSUphVxHIE9qjV2kiaDW12hOjkE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
-                "Ref": "TestDashfunctionLambdaFunction"
+                "Ref": "ConvertToPngLambdaFunction"
               },
-              "CodeSha256": "dV+7V+OKYaNh1U5H2J9STToUih8Xc9pKGdgBQ8TWKo4="
+              "CodeSha256": "CeKFadPnPDj9LH9ZyYmIS7QuovvDIop4eWNWoVkrakY="
+            }
+          },
+          "ApiGatewayRestApi": {
+            "Type": "AWS::ApiGateway::RestApi",
+            "Properties": {
+              "Name": "dev-svg-to-png-serverless",
+              "EndpointConfiguration": {
+                "Types": [
+                  "EDGE"
+                ]
+              }
+            }
+          },
+          "ApiGatewayResourceConvertDashtoDashpng": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "convert-to-png",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodConvertDashtoDashpngOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
+                      "method.response.header.Access-Control-Allow-Credentials": "'false'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceConvertDashtoDashpng"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodConvertDashtoDashpngPost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "POST",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceConvertDashtoDashpng"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "ConvertToPngLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            }
+          },
+          "ApiGatewayDeployment1530965146536": {
+            "Type": "AWS::ApiGateway::Deployment",
+            "Properties": {
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "StageName": "dev"
+            },
+            "DependsOn": [
+              "ApiGatewayMethodConvertDashtoDashpngPost"
+            ]
+          },
+          "ConvertToPngLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "ConvertToPngLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "apigateway.",
+                    {
+                      "Ref": "AWS::URLSuffix"
+                    }
+                  ]
+                ]
+              },
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
             }
           }
         },
@@ -149,10 +324,29 @@
               "Ref": "ServerlessDeploymentBucket"
             }
           },
-          "TestDashfunctionLambdaFunctionQualifiedArn": {
+          "ConvertToPngLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "TestDashfunctionLambdaVersionBhF26UlfDp2IzXlPVdndx360En1yd2CwvscK5oezs"
+              "Ref": "ConvertToPngLambdaVersionplaVjUUuuAFuejefSUphVxHIE9qjV2kiaDW12hOjkE"
+            }
+          },
+          "ServiceEndpoint": {
+            "Description": "URL of the service endpoint",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  ".execute-api.us-east-1.",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  },
+                  "/dev"
+                ]
+              ]
             }
           }
         }
@@ -183,17 +377,45 @@
       }
     },
     "plugins": [
-      "serverless-hooks-plugin"
+      "serverless-hooks-plugin",
+      "serverless-offline"
     ],
     "pluginsData": {},
     "functions": {
-      "test-function": {
+      "convertToPng": {
         "handler": "index.handler",
         "environment": {
           "DEBUG": "0"
         },
-        "events": [],
-        "name": "svg-to-png-serverless-dev-test-function",
+        "events": [
+          {
+            "http": {
+              "path": "convert-to-png",
+              "method": "post",
+              "cors": {
+                "origins": [
+                  "*"
+                ],
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "POST"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "svg-to-png-serverless-dev-convertToPng",
         "package": {},
         "memory": 1536,
         "timeout": 180,
@@ -203,7 +425,7 @@
     }
   },
   "package": {
-    "artifactDirectoryName": "serverless/svg-to-png-serverless/dev/1530955326903-2018-07-07T09:22:06.903Z",
+    "artifactDirectoryName": "serverless/svg-to-png-serverless/dev/1530965146145-2018-07-07T12:05:46.145Z",
     "artifact": "package.zip"
   }
 }

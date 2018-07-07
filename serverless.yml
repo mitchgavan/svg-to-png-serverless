@@ -5,24 +5,24 @@ provider:
   runtime: nodejs6.10
   memorySize: 1536
   timeout: 180
-  # if needed (e.g. upload snapshot)
-  # iamRoleStatements:
-  #  -  Effect: "Allow"
-  #     Action:
-  #       - "s3:PutObject"
-  #     Resource: "arn:aws:s3:::<bucket name>/*"  
 
 functions:
-  test-function:
+  convertToPng:
     handler: index.handler
     environment:
       DEBUG: '0'
+    events:
+      - http:
+          path: /convert-to-png
+          method: post
+          cors: true
 
 package:
   artifact: ./package.zip
   
 plugins:
   - serverless-hooks-plugin
+  - serverless-offline
 
 custom:
   hooks:

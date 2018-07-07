@@ -1,13 +1,43 @@
 const setup = require('./starter-kit/setup')
 
 exports.handler = async (event, context, callback) => {
+
+  const params = JSON.parse(event.body)
+
   // For keeping the browser launch
   context.callbackWaitsForEmptyEventLoop = false
   const browser = await setup.getBrowser()
-  exports.run(browser).then(
-    (result) => callback(null, result)
+
+  exports.run(browser, params.svgString).then(
+    (result) => {
+      const response = {
+          statusCode: 200,
+          headers: {
+              "Access-Control-Allow-Credentials": true,
+              "Access-Control-Allow-Origin": "*",
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+              message: '[INFO] Successfully converted SVG to PNG',
+              buffer: response
+          })
+      }
+      return callback(null, response)
+    }
   ).catch(
-    (err) => callback(err)
+    (err) => {
+      const response = {
+          statusCode: 400,
+          headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+          },
+          body: JSON.stringify({
+              message: '[ERROR] ' + err
+          })
+      }
+      return callback(null, response)
+    }
   )
 }
 
