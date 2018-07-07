@@ -59,7 +59,8 @@ exports.run = async (browser, svgString) => {
       return window.SvgToPng(svgString).then(val => val)
     }, svgString)
 
-    return Buffer.from(dataUrl.split(',')[1], 'base64')
+    // return Buffer.from(dataUrl.split(',')[1], 'base64')
+    return dataUrl
   }
 
   let buffer
