@@ -1,8 +1,7 @@
 import './polyfill.min.js'
 window.Buffer = Buffer; // make sure rollup-plugin-node-globals to populate Buffer
 
-const getImageDataURL = (image) => {
-  const { width, height } = image
+const getImageDataURL = (image, width, height) => {
   const canvas = document.createElement('canvas')
   canvas.width = width
   canvas.height = height
@@ -14,11 +13,11 @@ const getImageDataURL = (image) => {
 };
 
 
-const convertSvg = (svgString) => new Promise(async (res, rej) => {
+const convertSvg = (params) => new Promise(async (res, rej) => {
   try {
     const image = new Image()
-    image.onload = () => res(getImageDataURL(image))
-    image.src = `data:image/svg+xml,${encodeURIComponent(svgString)}`
+    image.onload = () => res(getImageDataURL(image, params.width, params.height))
+    image.src = `data:image/svg+xml,${encodeURIComponent(params.svgString)}`
   } catch (e) {
     rej(e)
   }

@@ -9,7 +9,7 @@ exports.handler = async (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false
   const browser = await setup.getBrowser()
 
-  exports.run(browser, params.svgString).then(
+  exports.run(browser, params).then(
     (result) => {
       const response = {
           statusCode: 200,
@@ -42,7 +42,17 @@ exports.handler = async (event, context, callback) => {
   )
 }
 
-exports.run = async (browser, svgString) => {
+exports.run = async (browser, params) => {
+  // fallback data for testing localally
+  params = params || {
+    svgString: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path d="M30,1h40l29,29v40l-29,29h-40l-29-29v-40z" stroke="#000" fill="none"/> 
+    <path d="M31,3h38l28,28v38l-28,28h-38l-28-28v-38z" fill="#a23"/> 
+    <text x="50" y="68" font-size="48" fill="#FFF" text-anchor="middle"><![CDATA[410]]></text>
+  </svg>`,
+    width: 1200,
+    height: 1200
+  }
 
   const getPage = async () => {
     const page = await browser.newPage()
@@ -53,11 +63,11 @@ exports.run = async (browser, svgString) => {
 
   const page = await getPage()
 
-  const convertSvg = async (svgString) => {
-    const dataUrl = await page.evaluate((svgString) => {
+  const convertSvg = async (params) => {
+    const dataUrl = await page.evaluate((params) => {
       // getting a babel compile error if this cb is an async function, therefore using regular function with promise
-      return window.SvgToPng(svgString).then(val => val)
-    }, svgString)
+      return window.SvgToPng(params).then(val => val)
+    }, params)
 
     // return Buffer.from(dataUrl.split(',')[1], 'base64')
     return dataUrl
@@ -65,7 +75,7 @@ exports.run = async (browser, svgString) => {
 
   let buffer
   try {
-    buffer = await convertSvg(svgString)
+    buffer = await convertSvg(params)
   } finally {
     await page.close()
   }
