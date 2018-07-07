@@ -108,7 +108,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/svg-to-png-serverless/dev/1530965146145-2018-07-07T12:05:46.145Z/package.zip"
+                "S3Key": "serverless/svg-to-png-serverless/dev/1530968252023-2018-07-07T12:57:32.023Z/package.zip"
               },
               "FunctionName": "svg-to-png-serverless-dev-convertToPng",
               "Handler": "index.handler",
@@ -132,14 +132,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "ConvertToPngLambdaVersionplaVjUUuuAFuejefSUphVxHIE9qjV2kiaDW12hOjkE": {
+          "ConvertToPngLambdaVersionkxUaswzOzrocdVVMe6DoEYNTTk14s4xRuz9AnjsBng": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ConvertToPngLambdaFunction"
               },
-              "CodeSha256": "CeKFadPnPDj9LH9ZyYmIS7QuovvDIop4eWNWoVkrakY="
+              "CodeSha256": "NwpMzaHXMLZqdNsYgewrYYOM81/YlKUvsMQXvO8PWUM="
             }
           },
           "ApiGatewayRestApi": {
@@ -258,7 +258,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1530965146536": {
+          "ApiGatewayDeployment1530968252416": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -327,7 +327,7 @@
           "ConvertToPngLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ConvertToPngLambdaVersionplaVjUUuuAFuejefSUphVxHIE9qjV2kiaDW12hOjkE"
+              "Ref": "ConvertToPngLambdaVersionkxUaswzOzrocdVVMe6DoEYNTTk14s4xRuz9AnjsBng"
             }
           },
           "ServiceEndpoint": {
@@ -425,7 +425,7 @@
     }
   },
   "package": {
-    "artifactDirectoryName": "serverless/svg-to-png-serverless/dev/1530965146145-2018-07-07T12:05:46.145Z",
+    "artifactDirectoryName": "serverless/svg-to-png-serverless/dev/1530968252023-2018-07-07T12:57:32.023Z",
     "artifact": "package.zip"
   }
 }

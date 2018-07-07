@@ -46,7 +46,7 @@ exports.run = async (browser, svgString) => {
   const getPage = async () => {
     const page = await browser.newPage()
     await page.goto('about:blank')
-    await page.addScriptTag({ path: require.resolve('./browser-convert-svg.umd.js') });
+    await page.addScriptTag({ path: require.resolve('./browser-convert-svg.umd.js') })
     return page
   }
 
@@ -66,5 +66,6 @@ exports.run = async (browser, svgString) => {
   } finally {
     await page.close()
   }
+
   return buffer
 }

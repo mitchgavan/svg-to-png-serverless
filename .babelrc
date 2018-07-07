@@ -2,9 +2,11 @@
   "presets": [
     ["env", {
       "targets": {
-        "browsers": ["last 2 Chrome versions"]
+        "browsers": ["last 2 Chrome versions"],
+        "node": "6.10"
       },
       "modules": false
     }]
-  ]
+  ],
+  "plugins": ["@babel/plugin-transform-runtime"]
 }

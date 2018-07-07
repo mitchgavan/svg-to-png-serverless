@@ -7,18 +7,20 @@
     "package-nochrome": "npm run package-prepare && cd dist && zip -rq ../package.zip .",
     "package-prepare": "npm run babel && cp -r package.json dist && cd dist && PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm install --production",
     "babel": "rm -rf dist && mkdir dist && ./node_modules/.bin/babel src --out-dir dist",
-    "local": "npm run babel && cp -r node_modules dist && node dist/starter-kit/local.js",
+    "local": "rollup -c && npm run babel && cp -r node_modules dist && node dist/starter-kit/local.js",
     "lint": "./node_modules/.bin/eslint src",
     "build": "rollup -c"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.0.0-beta.52",
     "puppeteer": "^1.1.1",
     "tar": "^4.0.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.52",
+    "@babel/core": "^7.0.0-beta.52",
+    "@babel/plugin-transform-runtime": "^7.0.0-beta.52",
     "aws-sdk": "^2.111.0",
-    "babel-cli": "^6.26.0",
-    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "eslint": "^4.6.1",
     "eslint-config-google": "^0.9.1",
