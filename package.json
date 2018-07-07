@@ -12,15 +12,15 @@
     "build": "rollup -c"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.0.0-beta.52",
     "puppeteer": "^1.1.1",
     "tar": "^4.0.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.52",
-    "@babel/core": "^7.0.0-beta.52",
-    "@babel/plugin-transform-runtime": "^7.0.0-beta.52",
     "aws-sdk": "^2.111.0",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "eslint": "^4.6.1",
     "eslint-config-google": "^0.9.1",

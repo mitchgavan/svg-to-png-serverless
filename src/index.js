@@ -1,3 +1,4 @@
+require('./polyfill.min.js')
 const setup = require('./starter-kit/setup')
 
 exports.handler = async (event, context, callback) => {
@@ -53,8 +54,9 @@ exports.run = async (browser, svgString) => {
   const page = await getPage()
 
   const convertSvg = async (svgString) => {
-    const dataUrl = await page.evaluate(async (svgString) => {
-      return await window.SvgToPng(svgString)
+    const dataUrl = await page.evaluate((svgString) => {
+      // babel compile error if async function used here, therefore using regular function.
+      return window.SvgToPng(svgString).then(val => val)
     }, svgString)
 
     return Buffer.from(dataUrl.split(',')[1], 'base64')

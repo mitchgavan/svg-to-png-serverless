@@ -92,7 +92,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/svg-to-png-serverless/dev/1530968252023-2018-07-07T12:57:32.023Z/package.zip"
+          "S3Key": "serverless/svg-to-png-serverless/dev/1530974626436-2018-07-07T14:43:46.436Z/package.zip"
         },
         "FunctionName": "svg-to-png-serverless-dev-convertToPng",
         "Handler": "index.handler",
@@ -116,14 +116,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "ConvertToPngLambdaVersionkxUaswzOzrocdVVMe6DoEYNTTk14s4xRuz9AnjsBng": {
+    "ConvertToPngLambdaVersion9vHPkIDFufwJkkQ7Y59qVazRg2ZtisMhZnJKMbkr4": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ConvertToPngLambdaFunction"
         },
-        "CodeSha256": "NwpMzaHXMLZqdNsYgewrYYOM81/YlKUvsMQXvO8PWUM="
+        "CodeSha256": "81WFmEqcgW4372wXSxozQUa1P1MNTbJ/uVpQi7Qi1AQ="
       }
     },
     "ApiGatewayRestApi": {
@@ -242,7 +242,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1530968252416": {
+    "ApiGatewayDeployment1530974626845": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -311,7 +311,7 @@
     "ConvertToPngLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ConvertToPngLambdaVersionkxUaswzOzrocdVVMe6DoEYNTTk14s4xRuz9AnjsBng"
+        "Ref": "ConvertToPngLambdaVersion9vHPkIDFufwJkkQ7Y59qVazRg2ZtisMhZnJKMbkr4"
       }
     },
     "ServiceEndpoint": {
