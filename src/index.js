@@ -20,7 +20,7 @@ exports.handler = async (event, context, callback) => {
           },
           body: JSON.stringify({
               message: '[INFO] Successfully converted SVG to PNG',
-              buffer: response
+              buffer: result
           })
       }
       return callback(null, response)
