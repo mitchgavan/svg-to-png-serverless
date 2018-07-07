@@ -55,7 +55,7 @@ exports.run = async (browser, svgString) => {
 
   const convertSvg = async (svgString) => {
     const dataUrl = await page.evaluate((svgString) => {
-      // babel compile error if async function used here, therefore using regular function.
+      // getting a babel compile error if this cb is an async function, therefore using regular function with promise
       return window.SvgToPng(svgString).then(val => val)
     }, svgString)
 

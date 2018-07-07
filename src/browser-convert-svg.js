@@ -15,11 +15,6 @@ const getImageDataURL = (image) => {
 
 
 const convertSvg = (svgString) => new Promise(async (res, rej) => {
-  console.log('convertSvg')
-  let svgString = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <path d="M30,1h40l29,29v40l-29,29h-40l-29-29v-40z" stroke="#000" fill="none"/> 
-  <path d="M31,3h38l28,28v38l-28,28h-38l-28-28v-38z" fill="#a23"/> 
-</svg>`
   try {
     const image = new Image()
     image.onload = () => res(getImageDataURL(image))
