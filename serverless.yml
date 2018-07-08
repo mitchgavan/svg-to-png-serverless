@@ -22,7 +22,6 @@ package:
   
 plugins:
   - serverless-hooks-plugin
-  - serverless-offline
 
 custom:
   hooks:

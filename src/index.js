@@ -5,6 +5,21 @@ exports.handler = async (event, context, callback) => {
 
   const params = JSON.parse(event.body)
 
+  const errorResponse = (err) => ({
+    statusCode: 400,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify({
+      message: '[ERROR] ' + err
+    })
+  })
+
+  if (!params.svgString || !params.width || !params.height) {
+    return callback(null, errorResponse('Required parameters not found'))
+  }
+
   // For keeping the browser launch
   context.callbackWaitsForEmptyEventLoop = false
   const browser = await setup.getBrowser()
@@ -27,17 +42,7 @@ exports.handler = async (event, context, callback) => {
     }
   ).catch(
     (err) => {
-      const response = {
-          statusCode: 400,
-          headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*'
-          },
-          body: JSON.stringify({
-              message: '[ERROR] ' + err
-          })
-      }
-      return callback(null, response)
+      return callback(null, errorResponse(err))
     }
   )
 }
@@ -66,10 +71,9 @@ exports.run = async (browser, params) => {
   const convertSvg = async (params) => {
     const dataUrl = await page.evaluate((params) => {
       // getting a babel compile error if this cb is an async function, therefore using regular function with promise
-      return window.SvgToPng(params).then(val => val)
+      return window.SvgToPng(params).then(res => res)
     }, params)
 
-    // return Buffer.from(dataUrl.split(',')[1], 'base64')
     return dataUrl
   }
 

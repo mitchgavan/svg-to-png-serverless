@@ -1,5 +1,7 @@
 import 'babel-polyfill'
-window.Buffer = Buffer; // make sure rollup-plugin-node-globals to populate Buffer
+
+// make sure rollup-plugin-node-globals to populate Buffer
+window.Buffer = Buffer
 
 const getImageDataURL = (image, width, height) => {
   const canvas = document.createElement('canvas')
@@ -9,9 +11,8 @@ const getImageDataURL = (image, width, height) => {
   const context = canvas.getContext('2d')
 
   context.drawImage(image, 0, 0, width, height)
-  return canvas.toDataURL(`image/png`)
-};
-
+  return canvas.toDataURL('image/png')
+}
 
 const convertSvg = (params) => new Promise(async (res, rej) => {
   try {
@@ -21,6 +22,6 @@ const convertSvg = (params) => new Promise(async (res, rej) => {
   } catch (e) {
     rej(e)
   }
-});
+})
 
 export default convertSvg
