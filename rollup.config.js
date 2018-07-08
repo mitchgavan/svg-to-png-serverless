@@ -5,7 +5,7 @@ import { terser } from 'rollup-plugin-terser'
 export default {
     input: 'src/browser-convert-svg.js',
     output: {
-        file: 'src/browser-convert-svg.umd.js',
+        file: 'dist/browser-convert-svg.umd.js',
         format: 'umd',
         name: 'SvgToPng',
     },
