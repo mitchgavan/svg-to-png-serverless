@@ -35,7 +35,7 @@ exports.handler = async (event, context, callback) => {
           },
           body: JSON.stringify({
               message: '[INFO] Successfully converted SVG to PNG',
-              buffer: result
+              image: result
           })
       }
       return callback(null, response)
@@ -77,12 +77,12 @@ exports.run = async (browser, params) => {
     return dataUrl
   }
 
-  let buffer
+  let imageUri
   try {
-    buffer = await convertSvg(params)
+    imageUri = await convertSvg(params)
   } finally {
     await page.close()
   }
 
-  return buffer
+  return imageUri
 }
