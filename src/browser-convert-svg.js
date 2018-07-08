@@ -1,4 +1,4 @@
-import './polyfill.min.js'
+import 'babel-polyfill'
 window.Buffer = Buffer; // make sure rollup-plugin-node-globals to populate Buffer
 
 const getImageDataURL = (image, width, height) => {

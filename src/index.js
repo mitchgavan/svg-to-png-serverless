@@ -1,4 +1,4 @@
-require('./polyfill.min.js')
+require('babel-polyfill')
 const setup = require('./starter-kit/setup')
 
 exports.handler = async (event, context, callback) => {
